@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }} | Rentler{% endblock %}
+{% block body %}
+{% include "partials/messages.html" %}
+{% include "partials/public_nav.html" %}
+<main class="pt-16">
+  <section class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-3xl">
+    <a href="{% url 'catalog:browse' %}" class="text-label-md text-primary hover:underline inline-flex items-center gap-xs mb-lg">
+      <span class="material-symbols-outlined text-[18px]">arrow_back</span> Back to listings
+    </a>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-xl">
+      <div class="rounded-xl overflow-hidden border border-outline-variant bg-surface-container-low min-h-[320px]">
+        {% if product.image_urls %}
+          <img src="{{ product.image_urls.0 }}" alt="{{ product.name }}" class="w-full h-full object-cover max-h-[480px]">
+        {% else %}
+          <div class="h-80 flex items-center justify-center text-on-surface-variant">
+            <span class="material-symbols-outlined text-[64px]">inventory_2</span>
+          </div>
+        {% endif %}
+      </div>
+      <div class="space-y-lg">
+        {% if product.main_category %}
+          <p class="text-label-md text-primary uppercase tracking-wide">{{ product.main_category.name }}{% if product.category.parent %} / {{ product.category.name }}{% endif %}</p>
+        {% endif %}
+        <h1 class="text-headline-lg font-headline-lg text-on-surface">{{ product.name }}</h1>
+        <p class="text-body-md text-on-surface-variant">{{ product.description }}</p>
+        <div class="grid grid-cols-2 gap-md">
+          {% if product.hourly_price %}<div class="rounded-lg bg-surface-container-low p-md"><p class="text-label-sm text-on-surface-variant">Hourly</p><p class="text-title-lg text-primary">${{ product.hourly_price }}</p></div>{% endif %}
+          {% if product.daily_price %}<div class="rounded-lg bg-surface-container-low p-md"><p class="text-label-sm text-on-surface-variant">Daily</p><p class="text-title-lg text-primary">${{ product.daily_price }}</p></div>{% endif %}
+          {% if product.weekly_price %}<div class="rounded-lg bg-surface-container-low p-md"><p class="text-label-sm text-on-surface-variant">Weekly</p><p class="text-title-lg text-primary">${{ product.weekly_price }}</p></div>{% endif %}
+          {% if product.monthly_price %}<div class="rounded-lg bg-surface-container-low p-md"><p class="text-label-sm text-on-surface-variant">Monthly</p><p class="text-title-lg text-primary">${{ product.monthly_price }}</p></div>{% endif %}
+        </div>
+        {% if product.city or product.state %}
+          <p class="flex items-center gap-xs text-body-sm text-on-surface-variant">
+            <span class="material-symbols-outlined text-[18px]">location_on</span>
+            {{ product.address }} {% if product.address %}<br>{% endif %}
+            {{ product.city }}{% if product.city and product.state %}, {% endif %}{{ product.state }} {{ product.post_code }}
+          </p>
+        {% endif %}
+        {% if product.available_on_days %}
+          <div>
+            <h2 class="text-title-lg font-title-lg mb-sm">Available days</h2>
+            <p class="text-body-sm text-on-surface-variant">{{ product.available_on_days|join:", " }}</p>
+            {% if product.starting_hour is not None and product.ending_hour is not None %}
+              <p class="text-body-sm text-on-surface-variant mt-xs">Hours: {{ product.starting_hour }}:00 – {{ product.ending_hour }}:00</p>
+            {% endif %}
+          </div>
+        {% endif %}
+        {% if product.not_availability %}
+          <div>
+            <h2 class="text-title-lg font-title-lg mb-sm">Blocked dates</h2>
+            <p class="text-body-sm text-on-surface-variant">{{ product.not_availability|join:", " }}</p>
+          </div>
+        {% endif %}
+        <div class="flex flex-wrap gap-md pt-md">
+          <a href="{% url 'catalog:terms' product.slug %}" class="bg-surface border border-outline-variant text-on-surface font-label-md px-xl py-md rounded-xl hover:bg-surface-container-low transition-all">Rental terms</a>
+        </div>
+      </div>
+    </div>
+    {% if product.selling_points %}
+      <div class="mt-3xl">
+        <h2 class="text-headline-md font-headline-md mb-lg">Highlights</h2>
+        <ul class="grid grid-cols-1 md:grid-cols-2 gap-md">
+          {% for point in product.selling_points %}
+            <li class="flex items-start gap-sm text-body-md"><span class="material-symbols-outlined text-primary">check_circle</span>{{ point }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </section>
+</main>
+{% include "partials/public_footer.html" %}
+{% endblock %}

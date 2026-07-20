@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Browse rentals | Rentler{% endblock %}
+{% block body %}
+{% include "partials/messages.html" %}
+{% include "partials/public_nav.html" %}
+<main class="pt-16">
+  <section class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-3xl">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-lg mb-xl">
+      <div>
+        <h1 class="text-headline-lg font-headline-lg text-on-surface">Explore Listings</h1>
+        <p class="text-body-md text-on-surface-variant mt-sm">Find gear, vehicles, and more near you.</p>
+      </div>
+      {% if user.is_authenticated %}
+        <a href="{% url 'catalog:manage_list' %}" class="text-label-md font-label-md text-primary hover:underline">Manage my listings</a>
+      {% endif %}
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-gutter">
+      <aside class="lg:col-span-1">
+        {% include "catalog/partials/filter.html" %}
+      </aside>
+      <div class="lg:col-span-3">
+        {% if products %}
+          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-gutter">
+            {% for product in products %}
+              {% include "catalog/partials/card.html" with product=product %}
+            {% endfor %}
+          </div>
+          {% if page_obj.paginator.num_pages > 1 %}
+            <div class="flex justify-center gap-md mt-xl">
+              {% if page_obj.has_previous %}
+                <a class="px-lg py-sm rounded-lg border border-outline-variant text-label-md" href="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Previous</a>
+              {% endif %}
+              <span class="text-body-sm text-on-surface-variant self-center">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+              {% if page_obj.has_next %}
+                <a class="px-lg py-sm rounded-lg border border-outline-variant text-label-md" href="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Next</a>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% else %}
+          <div class="rounded-xl border border-outline-variant bg-surface-container-low p-xl text-center">
+            <p class="text-body-md text-on-surface-variant">No listings match your filters yet.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+</main>
+{% include "partials/public_footer.html" %}
+{% endblock %}

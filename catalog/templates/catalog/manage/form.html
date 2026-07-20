@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} | Rentler{% endblock %}
+{% block body %}
+{% include "partials/messages.html" %}
+{% include "partials/public_nav.html" %}
+<main class="pt-16">
+  <section class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop py-3xl">
+    <a href="{% url 'catalog:manage_list' %}" class="text-label-md text-primary hover:underline">← My listings</a>
+    <h1 class="text-headline-lg font-headline-lg mt-lg mb-xl">{{ title }}</h1>
+    <form method="post" enctype="multipart/form-data" class="space-y-lg rounded-xl border border-outline-variant bg-surface p-xl">
+      {% csrf_token %}
+      {% if form.non_field_errors %}
+        <div class="text-error text-body-sm">{{ form.non_field_errors }}</div>
+      {% endif %}
+      {% for field in form %}
+        <div>
+          <label class="block text-label-md text-on-surface-variant mb-xs" for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}<p class="text-label-sm text-on-surface-variant mt-xs">{{ field.help_text }}</p>{% endif %}
+          {% if field.errors %}<p class="text-error text-body-sm mt-xs">{{ field.errors }}</p>{% endif %}
+        </div>
+      {% endfor %}
+      <div class="flex gap-md pt-md">
+        <button type="submit" class="bg-primary text-on-primary font-label-md px-xl py-md rounded-xl">Save</button>
+        <a href="{% url 'catalog:manage_list' %}" class="border border-outline-variant font-label-md px-xl py-md rounded-xl">Cancel</a>
+      </div>
+    </form>
+  </section>
+</main>
+{% include "partials/public_footer.html" %}
+{% endblock %}
+{% block extra_head %}
+<style>
+  #id_category, #id_name, #id_description, #id_make_payment,
+  #id_hourly_price, #id_daily_price, #id_weekly_price, #id_monthly_price,
+  #id_minimum_weeks, #id_minimum_months, #id_total_items,
+  #id_address, #id_city, #id_state, #id_post_code,
+  #id_year, #id_make, #id_model,
+  #id_owner_delivery_pickup_km, #id_owner_delivery_pickup_cost, #id_owner_postage_cost,
+  #id_which_tnc, #id_tnc, #id_starting_hour, #id_ending_hour,
+  #id_selling_points_text, #id_image_upload {
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid #c4c6d0;
+    background: #f4f3f7;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+</style>
+{% endblock %}

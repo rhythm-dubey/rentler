@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}My listings | Rentler{% endblock %}
+{% block body %}
+{% include "partials/messages.html" %}
+{% include "partials/public_nav.html" %}
+<main class="pt-16">
+  <section class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-3xl">
+    <div class="flex flex-wrap items-center justify-between gap-md mb-xl">
+      <div>
+        <h1 class="text-headline-lg font-headline-lg">My listings</h1>
+        <p class="text-body-md text-on-surface-variant">Create and manage your rental products.</p>
+      </div>
+      <a href="{% url 'catalog:manage_create' %}" class="bg-primary text-on-primary font-label-md px-xl py-md rounded-xl hover:shadow-lg transition-all">New listing</a>
+    </div>
+    {% if products %}
+      <div class="overflow-x-auto rounded-xl border border-outline-variant">
+        <table class="w-full text-left text-body-sm">
+          <thead class="bg-surface-container-low text-on-surface-variant">
+            <tr>
+              <th class="px-lg py-md">Name</th>
+              <th class="px-lg py-md">Status</th>
+              <th class="px-lg py-md">Approved</th>
+              <th class="px-lg py-md">Price</th>
+              <th class="px-lg py-md"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for product in products %}
+              <tr class="border-t border-outline-variant">
+                <td class="px-lg py-md font-medium">{{ product.name }}</td>
+                <td class="px-lg py-md">{% if product.is_active %}Active{% else %}Inactive{% endif %}</td>
+                <td class="px-lg py-md">{% if product.is_admin_approved %}Yes{% else %}Pending{% endif %}</td>
+                <td class="px-lg py-md">${{ product.min_price }}</td>
+                <td class="px-lg py-md text-right space-x-sm whitespace-nowrap">
+                  <a class="text-primary hover:underline" href="{% url 'catalog:manage_edit' product.slug %}">Edit</a>
+                  <a class="text-primary hover:underline" href="{% url 'catalog:manage_variants' product.slug %}">Variants</a>
+                  <form action="{% url 'catalog:manage_delete' product.slug %}" method="post" class="inline" onsubmit="return confirm('Deactivate this listing?');">
+                    {% csrf_token %}
+                    <button type="submit" class="text-error hover:underline">Deactivate</button>
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="text-body-md text-on-surface-variant">You have no listings yet.</p>
+    {% endif %}
+  </section>
+</main>
+{% include "partials/public_footer.html" %}
+{% endblock %}

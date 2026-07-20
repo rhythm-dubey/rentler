@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Terms — {{ product.name }} | Rentler{% endblock %}
+{% block body %}
+{% include "partials/messages.html" %}
+{% include "partials/public_nav.html" %}
+<main class="pt-16">
+  <section class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop py-3xl">
+    <a href="{% url 'catalog:detail' product.slug %}" class="text-label-md text-primary hover:underline">← Back to {{ product.name }}</a>
+    <h1 class="text-headline-lg font-headline-lg text-on-surface mt-lg mb-xl">Rental terms</h1>
+    <div class="prose max-w-none text-body-md text-on-surface-variant space-y-md">
+      {{ terms_html|safe }}
+    </div>
+  </section>
+</main>
+{% include "partials/public_footer.html" %}
+{% endblock %}

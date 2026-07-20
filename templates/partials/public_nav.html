@@ -4,6 +4,7 @@
       <a href="{% url 'core:home' %}" class="text-title-lg font-title-lg font-black text-primary">Rentler</a>
       <nav class="hidden md:flex items-center gap-lg">
         <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="{% url 'core:home' %}">Overview</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="{% url 'catalog:browse' %}">Browse</a>
         <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="{% url 'core:about' %}">About</a>
         <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="{% url 'core:privacy' %}">Privacy</a>
         <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="{% url 'core:terms' %}">Terms</a>
@@ -11,8 +12,10 @@
     </div>
     <div class="flex items-center gap-md">
       <div class="hidden lg:flex items-center bg-surface-container-low px-md py-xs rounded-lg border border-outline-variant">
-        <span class="material-symbols-outlined text-outline text-[20px]">search</span>
-        <input class="bg-transparent border-none focus:ring-0 text-body-sm w-48" placeholder="Search rentals..." type="text">
+        <form action="{% url 'catalog:browse' %}" method="get" class="flex items-center">
+          <span class="material-symbols-outlined text-outline text-[20px]">search</span>
+          <input class="bg-transparent border-none focus:ring-0 text-body-sm w-48" placeholder="Search rentals..." type="search" name="q">
+        </form>
       </div>
       <div class="flex items-center gap-sm">
         {% if user.is_authenticated %}

@@ -1,0 +1,33 @@
+<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden group custom-shadow">
+  <a href="{% url 'catalog:detail' product.slug %}" class="block">
+    <div class="relative h-48 overflow-hidden bg-surface-container-low">
+      {% if product.image_urls %}
+        <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="{{ product.image_urls.0 }}" alt="{{ product.name }}">
+      {% else %}
+        <div class="w-full h-full flex items-center justify-center text-on-surface-variant">
+          <span class="material-symbols-outlined text-[48px]">inventory_2</span>
+        </div>
+      {% endif %}
+      {% if product.main_category %}
+        <div class="absolute bottom-sm left-sm bg-primary text-on-primary text-label-sm font-label-sm px-sm py-[2px] rounded uppercase">{{ product.main_category.name }}</div>
+      {% endif %}
+    </div>
+    <div class="p-lg space-y-sm">
+      <div class="flex justify-between items-start gap-sm">
+        <h3 class="text-title-lg font-title-lg text-on-surface line-clamp-1">{{ product.name }}</h3>
+        {% if product.min_price %}
+          <span class="text-primary font-bold whitespace-nowrap">${{ product.min_price }}</span>
+        {% endif %}
+      </div>
+      {% if product.city or product.state %}
+        <div class="flex items-center gap-xs text-on-surface-variant text-body-sm">
+          <span class="material-symbols-outlined text-[16px]">location_on</span>
+          {{ product.city }}{% if product.city and product.state %}, {% endif %}{{ product.state }}
+        </div>
+      {% endif %}
+      <span class="inline-block w-full mt-md text-center bg-surface-container-high text-primary font-label-md text-label-md py-sm rounded-lg group-hover:bg-primary group-hover:text-on-primary transition-all">
+        View Details
+      </span>
+    </div>
+  </a>
+</div>

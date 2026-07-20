@@ -25,201 +25,62 @@
                         The ultimate marketplace for managing, listing, and discovering everything from power tools to luxury vehicles. Seamless. Secure. Reliable.
                     </p>
 <div class="flex flex-wrap gap-md pt-md">
-<button class="bg-primary text-on-primary font-label-md text-label-md px-xl py-md rounded-xl hover:shadow-xl hover:translate-y-[-2px] transition-all flex items-center gap-sm">
+<a href="{% url 'catalog:browse' %}" class="bg-primary text-on-primary font-label-md text-label-md px-xl py-md rounded-xl hover:shadow-xl hover:translate-y-[-2px] transition-all flex items-center gap-sm">
                             Explore Listings
                             <span class="material-symbols-outlined">arrow_forward</span>
-</button>
-<button class="bg-surface text-on-surface border border-outline-variant font-label-md text-label-md px-xl py-md rounded-xl hover:bg-surface-container-low transition-all">
+</a>
+<a href="{% url 'core:about' %}" class="bg-surface text-on-surface border border-outline-variant font-label-md text-label-md px-xl py-md rounded-xl hover:bg-surface-container-low transition-all">
                             How it Works
-                        </button>
+                        </a>
 </div>
 </div>
 </div>
 </section>
-<!-- Categories Section (Bento Inspired) -->
+<!-- Categories Section -->
 <section class="py-3xl max-w-[1440px] mx-auto px-margin-desktop">
 <div class="flex justify-between items-end mb-xl">
 <div>
 <h2 class="text-headline-lg font-headline-lg text-on-surface">Featured Categories</h2>
 <p class="text-body-md font-body-md text-on-surface-variant">Find exactly what you need in seconds.</p>
 </div>
-<button class="text-primary font-label-md text-label-md hover:underline">View All Categories</button>
+<a href="{% url 'catalog:browse' %}" class="text-primary font-label-md text-label-md hover:underline">View All Categories</a>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter h-[480px]">
-<!-- Vehicles -->
-<div class="md:col-span-2 group relative overflow-hidden rounded-xl border border-outline-variant transition-all hover:shadow-xl cursor-pointer">
-<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A sleek, modern electric luxury car parked in a minimalist garage with soft cinematic lighting. The car's metallic finish reflects a palette of cool blues and indigo, aligning with the Rentler brand identity. The setting is clean and high-end, evoking a sense of reliability and premium service. Crisp lines and elegant lighting highlight the vehicle's sophisticated design features." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPef33BkGodF5IbFlvBAYmrlTaQnh1m4NqJ3DW5ShJCVxuBLVNgP0y7wHK8_V39UV5HBM-6b4DpqOFQ7EF7pO5DA6clU3ffkycijCfw2phIUzbfv35iqU-JvCy7HjhHafMo5yehJddoYvWSD6VlWDc_xcMjMhrgAx-8IMk6bdSsRjJzJ4Qzjc4gLI5JMSpqykZPqD-eA6KD8T77wP8pJ7n5o2Rq8PsjE12EuQIaJCPCeNvq17PcYJYyNXvaZpSXiGb7936lEYu_tY">
-<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-<div class="absolute bottom-lg left-lg text-white">
-<h3 class="text-headline-md font-headline-md">Vehicles</h3>
-<p class="text-body-sm opacity-80">Cars, Vans &amp; Scooters</p>
+{% if featured_categories %}
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+{% for category in featured_categories %}
+<a href="{% url 'catalog:browse' %}?category={{ category.slug }}" class="group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-low min-h-[160px] flex items-end p-lg transition-all hover:shadow-xl hover:border-primary/40">
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-90"></div>
+<div class="relative text-white">
+<h3 class="text-title-lg font-title-lg">{{ category.name }}</h3>
+{% if category.description %}
+<p class="text-body-sm opacity-80 line-clamp-1">{{ category.description }}</p>
+{% else %}
+<p class="text-body-sm opacity-80">Browse {{ category.name|lower }}</p>
+{% endif %}
 </div>
+</a>
+{% endfor %}
 </div>
-<!-- Tools -->
-<div class="group relative overflow-hidden rounded-xl border border-outline-variant transition-all hover:shadow-xl cursor-pointer">
-<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A professional-grade collection of construction tools neatly organized on a workspace. The lighting is bright and clear, highlighting the textures of metal and durable plastics. The color palette includes industrial greys and accents of primary blue. The image represents professional efficiency and the accessibility of high-quality equipment through Rentler's platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbycI0W41sApVG4qYf1su0Zf3aOv1ePWC_AQkCLl6TN0CbIjPMNbznPWl95kGxxnKEGYLPcU30r4a0wZ6dzpocoUZwwGMIEaVjG4rCx9bDzN3c6L6Qt43bkccf6gjFBPpCWbf8hC-hrvdne7aTOvBhydo-ypKnrPK9YpdwuMZOjq40Nz8bSCVw-_FNTg1mZxH9MvAq86fj-hr6781lFtbYCxETX2nBYmGb5e4fkSekcTOAxaUbYRow21erhXsVhqa3p3_MF-5inbk">
-<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-<div class="absolute bottom-lg left-lg text-white">
-<h3 class="text-title-lg font-title-lg">Tools</h3>
-<p class="text-body-sm opacity-80">Power &amp; Hand Tools</p>
-</div>
-</div>
-<!-- Electronics -->
-<div class="group relative overflow-hidden rounded-xl border border-outline-variant transition-all hover:shadow-xl cursor-pointer">
-<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A high-end photography setup featuring a professional mirrorless camera and various lenses on a dark minimalist surface. Subtle bokeh and shallow depth of field create a high-fidelity, sophisticated mood. Soft studio lighting highlights the intricate details of the electronic equipment. The image communicates the availability of top-tier technology for rent in a trusted environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAlABuRgzR7syvmsbjgRNzsnUQMLicX5FCgQItSpuqRqtRI2AFZJhkoXFG7OW2meMPxYs_DikZhwpS0wKd0N90j96J6Y37HXEBZJM2VMwqjUcpx6u79I-H9Seipdbafk1QVAJ4RC8eH0GXq4NU0XACsGxbE6oD1yzZ2Qant9d_tqphQpPbBiqPIRO8LYoo_EwDtBJgOKnweZOvaSpLVbjQptJl2m4yX4C5GV7Tci5P4q0vaPSUwCRRIoS5IU0zOEutrdLb2WnIMB8">
-<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-<div class="absolute bottom-lg left-lg text-white">
-<h3 class="text-title-lg font-title-lg">Electronics</h3>
-<p class="text-body-sm opacity-80">Cameras &amp; Gadgets</p>
-</div>
-</div>
-<!-- Furniture -->
-<div class="md:col-span-4 lg:col-span-1 group relative overflow-hidden rounded-xl border border-outline-variant transition-all hover:shadow-xl cursor-pointer lg:h-auto h-64">
-<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A designer Scandinavian-style chair placed in a bright, airy room with soft lighting. The scene is minimalist and features a palette of warm woods and clean whites. The focus is on quality craftsmanship and modern aesthetics. This imagery reinforces Rentler's position as a provider of stylish and well-maintained furniture rentals for any occasion." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBegKSzbWWtoDYK5VC5pu89UM9H9e3ASCALq200PC9Vc71BcAve-ZIwHjFOoiHqSrkbYQdgMaLa2EgeNBKBBglebRkO1J2-jDX92007d4ptmUwvzyFS1RZTXGh_Fka_dEmbHV1gRJxf2gisST5KbsjYuwApWU9aLHQs4i51boXCZeIW04pK-PzsrPDpO4IKexUW-Rfzk34gn4hM_a6YAhqG3_LgA56Q_PagqMC47mWlpU63IObP_3fXNMbWp353PYaoeSc7vRA2dVY">
-<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-<div class="absolute bottom-lg left-lg text-white">
-<h3 class="text-title-lg font-title-lg">Furniture</h3>
-<p class="text-body-sm opacity-80">Office &amp; Home</p>
-</div>
-</div>
-</div>
+{% else %}
+<p class="text-body-md text-on-surface-variant">Categories will appear here once seeded.</p>
+{% endif %}
 </section>
 <!-- Trending Rentals Section -->
 <section class="bg-surface-container-low py-3xl">
 <div class="max-w-[1440px] mx-auto px-margin-desktop">
 <div class="flex justify-between items-center mb-xl">
 <h2 class="text-headline-lg font-headline-lg text-on-surface">Trending Rentals</h2>
-<div class="flex gap-sm">
-<button class="p-sm rounded-full border border-outline-variant bg-surface hover:bg-surface-container-high transition-colors">
-<span class="material-symbols-outlined">chevron_left</span>
-</button>
-<button class="p-sm rounded-full border border-outline-variant bg-surface hover:bg-surface-container-high transition-colors">
-<span class="material-symbols-outlined">chevron_right</span>
-</button>
+<a href="{% url 'catalog:browse' %}" class="text-primary font-label-md text-label-md hover:underline">View all</a>
 </div>
-</div>
+{% if featured_products %}
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
-<!-- Product Card 1 -->
-<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden group custom-shadow">
-<div class="relative h-48 overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A pair of premium studio headphones resting on a sleek wooden desk. The lighting is soft and atmospheric, highlighting the high-quality materials and metallic accents. The background is a modern, slightly out-of-focus workspace. The overall aesthetic is professional and high-fidelity, emphasizing the premium nature of the items available on the platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjTree1w1yvlPGXG9bZi93Tx8cICWVzIt2_z6nZ4Tcj9R3zqerZ5rSfmj5JFr4AGwRwUhEkEtHHn-ONrB5E60b-oBD5w9nhxDHYgy5lLTtvR_ofvYVP74zheaGhwlAk32fhEOc3zSZiosVox4tIEVQ4w5QAYmBLa1gwwCXGTQl7BscUELOxyyfpTqPWsmvDOcu2lcFi8opc493n1xlJm9wE_sCWoltlmd63zDBkwnk88kRzIxXc39qaw4NdjTq_yNRSJYCekIFfAE">
-<button class="absolute top-sm right-sm bg-white/90 p-xs rounded-full shadow-sm hover:text-error transition-colors">
-<span class="material-symbols-outlined text-[20px]">favorite</span>
-</button>
-<div class="absolute bottom-sm left-sm bg-primary text-on-primary text-label-sm font-label-sm px-sm py-[2px] rounded">TOOL</div>
+{% for product in featured_products %}
+  {% include "catalog/partials/card.html" with product=product %}
+{% endfor %}
 </div>
-<div class="p-lg space-y-sm">
-<div class="flex justify-between items-start">
-<h4 class="text-title-lg font-title-lg text-on-surface line-clamp-1">Pro Audio Headphones</h4>
-<span class="text-primary font-bold">$15/day</span>
-</div>
-<div class="flex items-center gap-xs text-on-surface-variant text-body-sm">
-<span class="material-symbols-outlined text-[16px]">location_on</span>
-                                Downtown San Francisco
-                            </div>
-<div class="flex items-center gap-sm pt-sm">
-<div class="flex items-center text-tertiary">
-<span class="material-symbols-outlined text-[18px]">star</span>
-<span class="text-label-md font-label-md ml-xs">4.9</span>
-</div>
-<span class="text-outline text-label-sm">(124 reviews)</span>
-</div>
-<button class="w-full mt-md bg-surface-container-high text-primary font-label-md text-label-md py-sm rounded-lg hover:bg-primary hover:text-on-primary transition-all active:scale-[0.98]">
-                                View Details
-                            </button>
-</div>
-</div>
-<!-- Product Card 2 -->
-<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden group custom-shadow">
-<div class="relative h-48 overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A high-performance mountain bike leaning against a rustic stone wall in a scenic outdoor setting. The lighting is warm and natural, suggesting an early morning adventure. The bike is clean and well-maintained, with its intricate mechanical parts clearly visible. The image conveys a sense of freedom and high-quality outdoor gear available for rent." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnzkgP0wRyWuiKNY7jnRuVpWDkWypM5QmxeEuIpcrbNWbhZR-t_WUa3heQNyOboT7XjGW4OLs1N3s3xNdJ3ma_Hc6P1hbA5sJkxAIn_UN0ImkzfZGYSFTk2mQmivTjVCHv3ikjG8k1x5PRj387MaPrWWZz41DhIo4w0oywpEAUmktRUFd4cWjO-1upee_X2h6X3j2CjHYZHKvJo1xdAA5d5NH_9bPl0RgjFQ-ofigmLSP1Wu880yyY-qaNxXrzKquB73AZP9xSr98">
-<button class="absolute top-sm right-sm bg-white/90 p-xs rounded-full shadow-sm">
-<span class="material-symbols-outlined text-[20px]">favorite</span>
-</button>
-<div class="absolute bottom-sm left-sm bg-secondary text-on-secondary text-label-sm font-label-sm px-sm py-[2px] rounded">VEHICLE</div>
-</div>
-<div class="p-lg space-y-sm">
-<div class="flex justify-between items-start">
-<h4 class="text-title-lg font-title-lg text-on-surface line-clamp-1">Carbon Fiber Mountain Bike</h4>
-<span class="text-primary font-bold">$45/day</span>
-</div>
-<div class="flex items-center gap-xs text-on-surface-variant text-body-sm">
-<span class="material-symbols-outlined text-[16px]">location_on</span>
-                                Marin County, CA
-                            </div>
-<div class="flex items-center gap-sm pt-sm">
-<div class="flex items-center text-tertiary">
-<span class="material-symbols-outlined text-[18px]">star</span>
-<span class="text-label-md font-label-md ml-xs">4.8</span>
-</div>
-<span class="text-outline text-label-sm">(86 reviews)</span>
-</div>
-<button class="w-full mt-md bg-surface-container-high text-primary font-label-md text-label-md py-sm rounded-lg hover:bg-primary hover:text-on-primary transition-all active:scale-[0.98]">
-                                View Details
-                            </button>
-</div>
-</div>
-<!-- Product Card 3 -->
-<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden group custom-shadow">
-<div class="relative h-48 overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A professional heavy-duty concrete drill on a bright construction site background. The lighting is harsh but controlled, highlighting the tool's rugged texture and industrial strength. The composition is dynamic, suggesting power and capability. This image highlights the platform's utility for professional-grade construction and home improvement needs." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjV_pkz0rm3nWvXBsIpHoPWkv8YxZknQJZQlbaszMSGsfJ8NNGK_P1tfwzKwm3Y4gYkN8XZ7bpCekks5HE1Wc3R8kSGaVX8DYtZfoWw4kD4wenfM3ZJXUKHWnsegUxdonWk84pYKcsybxhrwqMAtuYFJT-my4odwlE3DvXG-ZlwU64gmazcvmpdRWHsoXjYK0k-dwo_HfQFFPMKkGk5fRuIh6qePuB6jyKntOMDOQedNvz6WeiDsLi8qajeuckh_KUfRu5FzEnDJ4">
-<button class="absolute top-sm right-sm bg-white/90 p-xs rounded-full shadow-sm">
-<span class="material-symbols-outlined text-[20px]">favorite</span>
-</button>
-<div class="absolute bottom-sm left-sm bg-tertiary text-on-tertiary text-label-sm font-label-sm px-sm py-[2px] rounded">TOOLS</div>
-</div>
-<div class="p-lg space-y-sm">
-<div class="flex justify-between items-start">
-<h4 class="text-title-lg font-title-lg text-on-surface line-clamp-1">Rotary Hammer Drill</h4>
-<span class="text-primary font-bold">$22/day</span>
-</div>
-<div class="flex items-center gap-xs text-on-surface-variant text-body-sm">
-<span class="material-symbols-outlined text-[16px]">location_on</span>
-                                Oakland, CA
-                            </div>
-<div class="flex items-center gap-sm pt-sm">
-<div class="flex items-center text-tertiary">
-<span class="material-symbols-outlined text-[18px]">star</span>
-<span class="text-label-md font-label-md ml-xs">5.0</span>
-</div>
-<span class="text-outline text-label-sm">(12 reviews)</span>
-</div>
-<button class="w-full mt-md bg-surface-container-high text-primary font-label-md text-label-md py-sm rounded-lg hover:bg-primary hover:text-on-primary transition-all active:scale-[0.98]">
-                                View Details
-                            </button>
-</div>
-</div>
-<!-- Product Card 4 -->
-<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden group custom-shadow">
-<div class="relative h-48 overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A sleek, modern high-end projector displaying a colorful image on a white wall in a darkened room. The device itself is minimalist and premium, with its cooling vents and lens catching subtle ambient light. The scene represents home cinema excellence and the variety of entertainment technology available through Rentler's secure marketplace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXujbbJWGuEHJ4KbWRjR_mDVjsPyLRVjtsKG4YzwUBcktoPU4yBOrMBvnCcFc41Khs4DD_hsVjl5fQu9RTdd9k1L6zg8Umo9NCzl2_1NfOr7YFTpm9wEoIccMoxV9VC3UrXV8N8s8fsGkj0Mwf03sZBKdzffaaaVDtFCV3eYGiEbn7-2GOLkfetz7dc7HXmk6zv-gkhJdKDuHHLUwUGmAKTt5t_bMDhabEHf0LLij9dsf-19eqQqsEqJfcwebH2yy3LYP2Ku4LZbE">
-<button class="absolute top-sm right-sm bg-white/90 p-xs rounded-full shadow-sm">
-<span class="material-symbols-outlined text-[20px]">favorite</span>
-</button>
-<div class="absolute bottom-sm left-sm bg-surface-container-highest text-on-surface text-label-sm font-label-sm px-sm py-[2px] rounded">GADGETS</div>
-</div>
-<div class="p-lg space-y-sm">
-<div class="flex justify-between items-start">
-<h4 class="text-title-lg font-title-lg text-on-surface line-clamp-1">4K Smart Projector</h4>
-<span class="text-primary font-bold">$30/day</span>
-</div>
-<div class="flex items-center gap-xs text-on-surface-variant text-body-sm">
-<span class="material-symbols-outlined text-[16px]">location_on</span>
-                                Berkeley, CA
-                            </div>
-<div class="flex items-center gap-sm pt-sm">
-<div class="flex items-center text-tertiary">
-<span class="material-symbols-outlined text-[18px]">star</span>
-<span class="text-label-md font-label-md ml-xs">4.7</span>
-</div>
-<span class="text-outline text-label-sm">(34 reviews)</span>
-</div>
-<button class="w-full mt-md bg-surface-container-high text-primary font-label-md text-label-md py-sm rounded-lg hover:bg-primary hover:text-on-primary transition-all active:scale-[0.98]">
-                                View Details
-                            </button>
-</div>
-</div>
-</div>
+{% else %}
+<p class="text-body-md text-on-surface-variant">Featured rentals will appear here after products are approved and featured.</p>
+{% endif %}
 </div>
 </section>
 <!-- Trust Stats / Banner -->

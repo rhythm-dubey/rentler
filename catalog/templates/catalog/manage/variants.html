@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Variants — {{ product.name }} | Rentler{% endblock %}
+{% block body %}
+{% include "partials/messages.html" %}
+{% include "partials/public_nav.html" %}
+<main class="pt-16">
+  <section class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop py-3xl">
+    <a href="{% url 'catalog:manage_edit' product.slug %}" class="text-label-md text-primary hover:underline">← Edit {{ product.name }}</a>
+    <h1 class="text-headline-lg font-headline-lg mt-lg mb-xl">Variants</h1>
+
+    <div class="rounded-xl border border-outline-variant overflow-hidden mb-xl">
+      <table class="w-full text-left text-body-sm">
+        <thead class="bg-surface-container-low">
+          <tr>
+            <th class="px-lg py-md">SKU</th>
+            <th class="px-lg py-md">Sold</th>
+            <th class="px-lg py-md">Notes</th>
+            <th class="px-lg py-md"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for variant in variants %}
+            <tr class="border-t border-outline-variant">
+              <td class="px-lg py-md">{{ variant.sku }}</td>
+              <td class="px-lg py-md">{% if variant.is_sold %}Yes{% else %}No{% endif %}</td>
+              <td class="px-lg py-md">{{ variant.notes|default:"—" }}</td>
+              <td class="px-lg py-md text-right">
+                <form method="post" action="{% url 'catalog:manage_variant_toggle' product.slug variant.pk %}">
+                  {% csrf_token %}
+                  <button type="submit" class="text-primary hover:underline">Toggle sold</button>
+                </form>
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="4" class="px-lg py-md text-on-surface-variant">No variants yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <form method="post" class="space-y-md rounded-xl border border-outline-variant p-xl">
+      {% csrf_token %}
+      <h2 class="text-title-lg font-title-lg">Add variant</h2>
+      {% for field in form %}
+        <div>
+          <label class="block text-label-md mb-xs" for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+        </div>
+      {% endfor %}
+      <button type="submit" class="bg-primary text-on-primary font-label-md px-xl py-md rounded-xl">Add</button>
+    </form>
+  </section>
+</main>
+{% include "partials/public_footer.html" %}
+{% endblock %}
