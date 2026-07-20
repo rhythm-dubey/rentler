@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Owner orders | Rentler{% endblock %}
+{% block body %}
+{% include "partials/messages.html" %}
+{% include "partials/public_nav.html" %}
+<main class="pt-16">
+  <section class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-3xl">
+    <div class="flex flex-wrap justify-between gap-md items-end mb-lg">
+      <h1 class="text-headline-lg font-headline-lg text-on-surface">Owner orders</h1>
+      <form method="get" class="flex gap-sm">
+        <input type="hidden" name="tab" value="{{ tab }}">
+        <input type="search" name="search" value="{{ search }}" placeholder="Search orders..." class="border border-outline-variant rounded-lg px-md py-sm text-body-sm">
+        <button type="submit" class="bg-primary text-on-primary px-md py-sm rounded-lg text-label-md">Search</button>
+      </form>
+    </div>
+    <div class="flex flex-wrap gap-sm mb-xl">
+      {% for item in tabs %}
+        <a href="?tab={{ item.value }}{% if search %}&search={{ search }}{% endif %}" class="text-label-md px-md py-sm rounded-lg border {% if tab == item.value %}bg-primary text-on-primary border-primary{% else %}border-outline-variant text-on-surface-variant hover:bg-surface-container-low{% endif %}">
+          {{ item.label }} ({{ item.count }})
+        </a>
+      {% endfor %}
+    </div>
+
+    {% if orders %}
+      <ul class="space-y-md">
+        {% for order in orders %}
+          <li class="rounded-xl border border-outline-variant p-lg flex flex-wrap justify-between gap-md items-center">
+            <div>
+              <a href="{% url 'orders:owner_detail' order.id_label %}" class="text-title-lg font-title-lg text-primary hover:underline">{{ order.id_label }}</a>
+              <p class="text-body-sm text-on-surface-variant">{{ order.product.name }} · {{ order.user_name }} · {{ order.get_order_status_display }} · ${{ order.total }}</p>
+            </div>
+            <a href="{% url 'orders:owner_detail' order.id_label %}" class="text-label-md text-primary">Manage</a>
+          </li>
+        {% endfor %}
+      </ul>
+      {% if page_obj.has_other_pages %}
+        <div class="flex gap-md mt-xl">
+          {% if page_obj.has_previous %}<a href="?tab={{ tab }}&page={{ page_obj.previous_page_number }}{% if search %}&search={{ search }}{% endif %}" class="text-primary">Previous</a>{% endif %}
+          {% if page_obj.has_next %}<a href="?tab={{ tab }}&page={{ page_obj.next_page_number }}{% if search %}&search={{ search }}{% endif %}" class="text-primary">Next</a>{% endif %}
+        </div>
+      {% endif %}
+    {% else %}
+      <p class="text-body-md text-on-surface-variant">No orders in this tab.</p>
+    {% endif %}
+  </section>
+</main>
+{% include "partials/public_footer.html" %}
+{% endblock %}

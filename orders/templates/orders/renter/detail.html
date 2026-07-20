@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Order {{ order.id_label }} | Rentler{% endblock %}
+{% block body %}
+{% include "partials/messages.html" %}
+{% include "partials/public_nav.html" %}
+<main class="pt-16">
+  <section class="max-w-[900px] mx-auto px-margin-mobile md:px-margin-desktop py-3xl">
+    <a href="{% url 'orders:renter_list' %}" class="text-label-md text-primary hover:underline inline-flex items-center gap-xs mb-lg">
+      <span class="material-symbols-outlined text-[18px]">arrow_back</span> My orders
+    </a>
+    <h1 class="text-headline-lg font-headline-lg text-on-surface mb-sm">Order {{ order.id_label }}</h1>
+    <p class="text-body-md text-on-surface-variant mb-xl">{{ order.product.name }} · {{ order.get_order_status_display }}</p>
+
+    <div class="rounded-xl border border-outline-variant divide-y divide-outline-variant mb-xl">
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Plan</span><span>{{ order.get_plan_type_display }} × {{ order.period }}</span></div>
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Quantity</span><span>{{ order.quantity }}</span></div>
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Window</span><span class="text-right text-body-sm">{{ order.start_date_time }} → {{ order.end_date_time }}</span></div>
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Delivery</span><span>{{ order.get_delivery_by_display }}</span></div>
+      {% if order.delivery_address %}
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Address</span><span class="text-right">{{ order.delivery_address }}</span></div>
+      {% endif %}
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Total</span><span class="text-primary text-title-lg">${{ order.total }}</span></div>
+    </div>
+
+    <div class="space-y-md">
+      {% if order.order_status == 'new-order' %}
+        <form method="post" action="{% url 'orders:manage_status' %}" class="rounded-xl border border-outline-variant p-lg space-y-md">
+          {% csrf_token %}
+          <input type="hidden" name="order_id" value="{{ order.pk }}">
+          <input type="hidden" name="action" value="request-cancellation">
+          <h2 class="text-title-lg font-title-lg">Request cancellation</h2>
+          <div>
+            <label class="text-label-md block mb-xs">Reason</label>
+            {{ cancel_form.reason }}
+          </div>
+          <div>
+            <label class="text-label-md block mb-xs">Comment</label>
+            {{ cancel_form.comment }}
+          </div>
+          <button type="submit" class="bg-primary text-on-primary font-label-md px-lg py-sm rounded-lg">Submit request</button>
+        </form>
+      {% elif order.order_status == 'request-cancellation' %}
+        <form method="post" action="{% url 'orders:manage_status' %}">
+          {% csrf_token %}
+          <input type="hidden" name="order_id" value="{{ order.pk }}">
+          <input type="hidden" name="action" value="revert-cancellation">
+          <button type="submit" class="border border-outline-variant font-label-md px-lg py-sm rounded-lg">Withdraw cancellation request</button>
+        </form>
+      {% elif order.order_status == 'delivered' %}
+        <form method="post" action="{% url 'orders:manage_status' %}">
+          {% csrf_token %}
+          <input type="hidden" name="order_id" value="{{ order.pk }}">
+          <input type="hidden" name="action" value="request-return">
+          <button type="submit" class="bg-primary text-on-primary font-label-md px-lg py-sm rounded-lg">Request return</button>
+        </form>
+      {% elif order.order_status == 'request-return' %}
+        <form method="post" action="{% url 'orders:manage_status' %}">
+          {% csrf_token %}
+          <input type="hidden" name="order_id" value="{{ order.pk }}">
+          <input type="hidden" name="action" value="revert-return">
+          <button type="submit" class="border border-outline-variant font-label-md px-lg py-sm rounded-lg">Withdraw return request</button>
+        </form>
+      {% endif %}
+    </div>
+  </section>
+</main>
+{% include "partials/public_footer.html" %}
+<style>
+  #id_reason, #id_comment { width: 100%; border: 1px solid #c4c6d0; border-radius: 0.75rem; padding: 0.75rem 1rem; }
+</style>
+{% endblock %}

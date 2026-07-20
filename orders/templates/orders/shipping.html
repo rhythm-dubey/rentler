@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Shipping | Rentler{% endblock %}
+{% block body %}
+{% include "partials/messages.html" %}
+{% include "partials/public_nav.html" %}
+<main class="pt-16">
+  <section class="max-w-[800px] mx-auto px-margin-mobile md:px-margin-desktop py-3xl">
+    <h1 class="text-headline-lg font-headline-lg text-on-surface mb-sm">Shipping &amp; delivery</h1>
+    <p class="text-body-md text-on-surface-variant mb-xl">Confirm delivery for <strong>{{ product.name }}</strong>.</p>
+
+    <div class="rounded-xl border border-outline-variant bg-surface-container-low p-lg mb-xl space-y-sm">
+      <p class="text-body-sm"><span class="text-on-surface-variant">Plan:</span> {{ shipping.plan_type|title }} · {{ shipping.period }} period(s)</p>
+      <p class="text-body-sm"><span class="text-on-surface-variant">Window:</span> {{ shipping.start_date_time }} → {{ shipping.end_date_time }}</p>
+      <p class="text-body-sm"><span class="text-on-surface-variant">Estimate:</span> ${{ shipping.total }}</p>
+    </div>
+
+    <form method="post" action="{% url 'orders:checkout_process' %}" class="space-y-lg">
+      {% csrf_token %}
+      {% if form.non_field_errors %}
+        <div class="text-body-sm text-error">{{ form.non_field_errors }}</div>
+      {% endif %}
+      <div>
+        <label class="text-label-md text-on-surface block mb-xs">Quantity</label>
+        {{ form.quantity }}
+        {% if form.quantity.errors %}<p class="text-body-sm text-error">{{ form.quantity.errors.0 }}</p>{% endif %}
+      </div>
+      <div>
+        <label class="text-label-md text-on-surface block mb-xs">Delivery</label>
+        {{ form.delivery_by }}
+        {% if form.delivery_by.errors %}<p class="text-body-sm text-error">{{ form.delivery_by.errors.0 }}</p>{% endif %}
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+        <div class="md:col-span-2">
+          <label class="text-label-md text-on-surface block mb-xs">Address</label>
+          {{ form.delivery_address }}
+          {% if form.delivery_address.errors %}<p class="text-body-sm text-error">{{ form.delivery_address.errors.0 }}</p>{% endif %}
+        </div>
+        <div>
+          <label class="text-label-md text-on-surface block mb-xs">City</label>
+          {{ form.city }}
+          {% if form.city.errors %}<p class="text-body-sm text-error">{{ form.city.errors.0 }}</p>{% endif %}
+        </div>
+        <div>
+          <label class="text-label-md text-on-surface block mb-xs">State</label>
+          {{ form.state }}
+          {% if form.state.errors %}<p class="text-body-sm text-error">{{ form.state.errors.0 }}</p>{% endif %}
+        </div>
+        <div>
+          <label class="text-label-md text-on-surface block mb-xs">Post code</label>
+          {{ form.post_code }}
+          {% if form.post_code.errors %}<p class="text-body-sm text-error">{{ form.post_code.errors.0 }}</p>{% endif %}
+        </div>
+      </div>
+      <button type="submit" class="bg-primary text-on-primary font-label-md px-xl py-md rounded-xl hover:shadow-lg active:scale-95 transition-all">
+        Continue to checkout
+      </button>
+    </form>
+  </section>
+</main>
+{% include "partials/public_footer.html" %}
+<style>
+  #id_quantity, #id_delivery_by, #id_delivery_address, #id_city, #id_state, #id_post_code {
+    width: 100%;
+    border: 1px solid var(--color-outline-variant, #c4c6d0);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: white;
+  }
+</style>
+{% endblock %}

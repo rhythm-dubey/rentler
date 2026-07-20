@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Manage {{ order.id_label }} | Rentler{% endblock %}
+{% block body %}
+{% include "partials/messages.html" %}
+{% include "partials/public_nav.html" %}
+<main class="pt-16">
+  <section class="max-w-[900px] mx-auto px-margin-mobile md:px-margin-desktop py-3xl">
+    <a href="{% url 'orders:owner_list' %}" class="text-label-md text-primary hover:underline inline-flex items-center gap-xs mb-lg">
+      <span class="material-symbols-outlined text-[18px]">arrow_back</span> Owner orders
+    </a>
+    <h1 class="text-headline-lg font-headline-lg text-on-surface mb-sm">Order {{ order.id_label }}</h1>
+    <p class="text-body-md text-on-surface-variant mb-xl">{{ order.product.name }} · {{ order.user_name }} · {{ order.get_order_status_display }}</p>
+
+    <div class="rounded-xl border border-outline-variant divide-y divide-outline-variant mb-xl">
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Renter</span><span>{{ order.user_name }} ({{ order.user.email }})</span></div>
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Plan</span><span>{{ order.get_plan_type_display }} × {{ order.period }}</span></div>
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Quantity</span><span>{{ order.quantity }}</span></div>
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Window</span><span class="text-right text-body-sm">{{ order.start_date_time }} → {{ order.end_date_time }}</span></div>
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Delivery</span><span>{{ order.get_delivery_by_display }}</span></div>
+      {% if order.product_variant_sku %}
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Variants</span><span>{{ order.product_variant_sku|join:", " }}</span></div>
+      {% endif %}
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Total</span><span class="text-primary text-title-lg">${{ order.total }}</span></div>
+    </div>
+
+    {% if deliver_form %}
+      <form method="post" action="{% url 'orders:owner_deliver' order.id_label %}" class="rounded-xl border border-outline-variant p-lg space-y-md mb-lg">
+        {% csrf_token %}
+        <h2 class="text-title-lg font-title-lg">Mark delivered</h2>
+        {% if deliver_form.has_variants %}
+          <p class="text-body-sm text-on-surface-variant">Select {{ order.quantity }} free variant SKU(s).</p>
+          {{ deliver_form.variant_skus }}
+          {% if deliver_form.variant_skus.errors %}<p class="text-body-sm text-error">{{ deliver_form.variant_skus.errors.0 }}</p>{% endif %}
+        {% else %}
+          <p class="text-body-sm text-on-surface-variant">No variants on this product — confirm delivery to continue.</p>
+        {% endif %}
+        <button type="submit" class="bg-primary text-on-primary font-label-md px-lg py-sm rounded-lg">Confirm delivery</button>
+      </form>
+    {% endif %}
+
+    {% if order.order_status == 'request-return' %}
+      <form method="post" action="{% url 'orders:owner_return' order.id_label %}" class="mb-lg">
+        {% csrf_token %}
+        <button type="submit" class="bg-primary text-on-primary font-label-md px-lg py-sm rounded-lg">Confirm return</button>
+      </form>
+    {% endif %}
+
+    {% if cancel_form %}
+      <form method="post" action="{% url 'orders:owner_accept_cancel' order.id_label %}" class="rounded-xl border border-outline-variant p-lg space-y-md">
+        {% csrf_token %}
+        <h2 class="text-title-lg font-title-lg">Accept cancellation</h2>
+        <div>
+          <label class="text-label-md block mb-xs">Notes</label>
+          {{ cancel_form.notes }}
+        </div>
+        <div>
+          <label class="text-label-md block mb-xs">Refund amount (optional)</label>
+          {{ cancel_form.refund_amount }}
+        </div>
+        <button type="submit" class="bg-primary text-on-primary font-label-md px-lg py-sm rounded-lg">Cancel order</button>
+      </form>
+    {% endif %}
+  </section>
+</main>
+{% include "partials/public_footer.html" %}
+<style>
+  #id_variant_skus { width: 100%; min-height: 8rem; border: 1px solid #c4c6d0; border-radius: 0.75rem; padding: 0.75rem; }
+  #id_notes, #id_refund_amount { width: 100%; border: 1px solid #c4c6d0; border-radius: 0.75rem; padding: 0.75rem 1rem; }
+</style>
+{% endblock %}

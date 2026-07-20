@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Checkout | Rentler{% endblock %}
+{% block body %}
+{% include "partials/messages.html" %}
+{% include "partials/public_nav.html" %}
+<main class="pt-16">
+  <section class="max-w-[800px] mx-auto px-margin-mobile md:px-margin-desktop py-3xl">
+    <h1 class="text-headline-lg font-headline-lg text-on-surface mb-sm">Confirm booking</h1>
+    <p class="text-body-md text-on-surface-variant mb-xl">Review your rental of <strong>{{ product.name }}</strong>. Payment processing arrives in a later step — confirming creates the order now.</p>
+
+    <div class="rounded-xl border border-outline-variant divide-y divide-outline-variant mb-xl">
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Plan</span><span>{{ checkout.plan_type|title }} × {{ checkout.period }}</span></div>
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Quantity</span><span>{{ checkout.quantity }}</span></div>
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Window</span><span class="text-right text-body-sm">{{ checkout.start_date_time }} → {{ checkout.end_date_time }}</span></div>
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Delivery</span><span>{{ checkout.delivery_by|title }}</span></div>
+      {% if checkout.delivery_address %}
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Address</span><span class="text-right">{{ checkout.delivery_address }}</span></div>
+      {% endif %}
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Subtotal</span><span>${{ checkout.subtotal }}</span></div>
+      <div class="p-lg flex justify-between gap-md"><span class="text-on-surface-variant">Shipping</span><span>${{ checkout.shipping_charge }}</span></div>
+      <div class="p-lg flex justify-between gap-md text-title-lg font-title-lg"><span>Total</span><span class="text-primary">${{ checkout.total }}</span></div>
+    </div>
+
+    <form method="post" action="{% url 'orders:create' %}">
+      {% csrf_token %}
+      <button type="submit" class="bg-primary text-on-primary font-label-md px-xl py-md rounded-xl hover:shadow-lg active:scale-95 transition-all">
+        Confirm booking
+      </button>
+      <a href="{% url 'orders:shipping' %}" class="ml-md text-label-md text-primary hover:underline">Back</a>
+    </form>
+  </section>
+</main>
+{% include "partials/public_footer.html" %}
+{% endblock %}

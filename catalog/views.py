@@ -68,11 +68,28 @@ def browse(request):
 
 @require_GET
 def detail(request, slug):
+    from datetime import date
+
+    from orders.availability import occupied_days, occupied_hours
+    from orders.forms import delivery_choices_for_product, plan_choices_for_product
+
     product = get_object_or_404(
         Product.objects.listed().select_related('category', 'owner'),
         slug=slug,
     )
-    return render(request, 'catalog/detail.html', {'product': product})
+    today = date.today()
+    return render(
+        request,
+        'catalog/detail.html',
+        {
+            'product': product,
+            'plan_choices': plan_choices_for_product(product),
+            'delivery_choices': delivery_choices_for_product(product),
+            'occupied_hours': occupied_hours(product, today),
+            'occupied_days': occupied_days(product, today.year, today.month),
+            'hour_choices': list(range(0, 24)),
+        },
+    )
 
 
 @require_GET

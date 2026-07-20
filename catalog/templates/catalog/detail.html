@@ -55,6 +55,70 @@
         <div class="flex flex-wrap gap-md pt-md">
           <a href="{% url 'catalog:terms' product.slug %}" class="bg-surface border border-outline-variant text-on-surface font-label-md px-xl py-md rounded-xl hover:bg-surface-container-low transition-all">Rental terms</a>
         </div>
+
+        {% if plan_choices %}
+          <div class="pt-xl border-t border-outline-variant mt-xl">
+            <h2 class="text-title-lg font-title-lg mb-md">Book this rental</h2>
+            {% if user.is_authenticated %}
+              <form method="post" action="{% url 'orders:shipping_process' %}" class="space-y-md">
+                {% csrf_token %}
+                <input type="hidden" name="product_slug" value="{{ product.slug }}">
+                <div>
+                  <label class="text-label-md block mb-xs">Plan</label>
+                  <select name="plan_type" id="book-plan" class="w-full border border-outline-variant rounded-xl px-md py-md bg-surface" required>
+                    {% for value, label in plan_choices %}
+                      <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div>
+                  <label class="text-label-md block mb-xs">Start date</label>
+                  <input type="date" name="selected_date" class="w-full border border-outline-variant rounded-xl px-md py-md bg-surface" required>
+                </div>
+                <div class="grid grid-cols-2 gap-md" id="duration-fields">
+                  <div>
+                    <label class="text-label-md block mb-xs">Start (hour or day)</label>
+                    <input type="number" name="start_duration" min="0" max="31" class="w-full border border-outline-variant rounded-xl px-md py-md bg-surface" placeholder="e.g. 9">
+                  </div>
+                  <div>
+                    <label class="text-label-md block mb-xs">End (hour or day)</label>
+                    <input type="number" name="end_duration" min="0" max="31" class="w-full border border-outline-variant rounded-xl px-md py-md bg-surface" placeholder="e.g. 17">
+                  </div>
+                </div>
+                <div>
+                  <label class="text-label-md block mb-xs">Period (weeks/months)</label>
+                  <input type="number" name="period" min="1" value="1" class="w-full border border-outline-variant rounded-xl px-md py-md bg-surface">
+                </div>
+                <div>
+                  <label class="text-label-md block mb-xs">Quantity</label>
+                  <input type="number" name="quantity" min="1" max="{{ product.is_available|default:1 }}" value="1" class="w-full border border-outline-variant rounded-xl px-md py-md bg-surface" required>
+                </div>
+                <div>
+                  <label class="text-label-md block mb-xs">Delivery</label>
+                  <select name="delivery_by" class="w-full border border-outline-variant rounded-xl px-md py-md bg-surface" required>
+                    {% for value, label in delivery_choices %}
+                      <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                {% if occupied_days %}
+                  <p class="text-body-sm text-on-surface-variant">Fully booked days this month: {{ occupied_days|join:", " }}</p>
+                {% endif %}
+                {% if occupied_hours %}
+                  <p class="text-body-sm text-on-surface-variant">Fully booked hours today: {{ occupied_hours|join:", " }}</p>
+                {% endif %}
+                <button type="submit" class="bg-primary text-on-primary font-label-md px-xl py-md rounded-xl hover:shadow-lg active:scale-95 transition-all w-full md:w-auto">
+                  Continue to shipping
+                </button>
+              </form>
+            {% else %}
+              <p class="text-body-md text-on-surface-variant">
+                <a href="{% url 'accounts:login' %}?next={{ request.path }}" class="text-primary hover:underline">Log in</a>
+                as a renter to book this item.
+              </p>
+            {% endif %}
+          </div>
+        {% endif %}
       </div>
     </div>
     {% if product.selling_points %}
