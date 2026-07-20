@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Privacy Policy | Rentler{% endblock %}
+{% block body %}
+{% include "partials/messages.html" %}
+{% include "partials/public_nav.html" %}
+<main class="pt-16">
+  <section class="bg-surface-container py-3xl px-margin-mobile md:px-margin-desktop text-center">
+    <h1 class="text-headline-lg md:text-display-lg font-display-lg text-on-surface">Privacy Policy</h1>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop py-3xl space-y-2xl">
+    <div class="space-y-md">
+      <h2 class="text-headline-md font-headline-md text-on-surface">Information We Collect</h2>
+      <p class="text-body-md font-body-md text-on-surface-variant">
+        We collect personal information such as your name, email address, shipping address, billing details,
+        and phone number when you make a purchase or register on our site. For transactions, we securely process
+        your payment information. We also gather data about how you interact with our website, including IP address,
+        browser type, device type, and browsing behavior. Cookies and similar technologies are used to enhance your
+        experience, remember preferences, and provide personalized content.
+      </p>
+    </div>
+    <div class="space-y-md">
+      <h2 class="text-headline-md font-headline-md text-on-surface">Data Security</h2>
+      <p class="text-body-md font-body-md text-on-surface-variant">
+        We implement industry-standard security measures, including encryption and secure servers, to protect your
+        personal information. However, no method of transmission over the internet or electronic storage is entirely
+        secure. While we strive to safeguard your data, we cannot guarantee absolute security.
+      </p>
+    </div>
+    <div class="space-y-md">
+      <h2 class="text-headline-md font-headline-md text-on-surface">Cookies and Tracking Technologies</h2>
+      <p class="text-body-md font-body-md text-on-surface-variant">
+        We use cookies and similar technologies to improve user experience and for marketing purposes. You may control
+        cookies through your browser settings; however, disabling them may limit certain site functionalities.
+      </p>
+    </div>
+    <div class="space-y-md">
+      <h2 class="text-headline-md font-headline-md text-on-surface">Changes to this Privacy Policy</h2>
+      <p class="text-body-md font-body-md text-on-surface-variant">
+        We may periodically update this Privacy Policy to reflect changes in our practices or legal requirements.
+        Any updates will be posted on this page, along with a revised effective date.
+      </p>
+    </div>
+  </section>
+</main>
+{% include "partials/public_footer.html" %}
+{% endblock %}

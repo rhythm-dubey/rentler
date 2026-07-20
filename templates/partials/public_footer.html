@@ -1,0 +1,19 @@
+<footer class="border-t border-outline-variant bg-surface-container-low mt-auto">
+  <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-xl flex flex-col md:flex-row md:items-center md:justify-between gap-lg">
+    <div class="space-y-xs">
+      <a href="{% url 'core:home' %}" class="text-title-lg font-title-lg font-black text-primary">{{ company_name|default:"Rentler" }}</a>
+      {% if support_email %}
+        <p class="text-body-sm font-body-sm text-on-surface-variant">
+          <a href="mailto:{{ support_email }}" class="hover:text-primary transition-colors">{{ support_email }}</a>
+          {% if support_phone %} · {{ support_phone }}{% endif %}
+        </p>
+      {% endif %}
+    </div>
+    <nav class="flex flex-wrap gap-md md:gap-lg text-label-md font-label-md text-on-surface-variant">
+      <a class="hover:text-primary transition-colors" href="{% url 'core:about' %}">About</a>
+      <a class="hover:text-primary transition-colors" href="{% url 'core:privacy' %}">Privacy</a>
+      <a class="hover:text-primary transition-colors" href="{% url 'core:terms' %}">Terms</a>
+      <a class="hover:text-primary transition-colors" href="{% url 'core:account_deletion' %}">Account deletion</a>
+    </nav>
+  </div>
+</footer>

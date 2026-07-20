@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Terms and Conditions | Rentler{% endblock %}
+{% block body %}
+{% include "partials/messages.html" %}
+{% include "partials/public_nav.html" %}
+<main class="pt-16">
+  <section class="bg-surface-container py-3xl px-margin-mobile md:px-margin-desktop text-center">
+    <h1 class="text-headline-lg md:text-display-lg font-display-lg text-on-surface">Website Terms and Conditions</h1>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop py-3xl">
+    <div class="prose max-w-none text-body-md font-body-md text-on-surface-variant space-y-md [&_h1]:text-headline-md [&_h1]:text-on-surface [&_h2]:text-title-lg [&_h2]:text-on-surface [&_p]:mb-md">
+      {% if terms_html %}
+        {{ terms_html }}
+      {% else %}
+        <p>Terms and conditions have not been published yet. Please check back later.</p>
+      {% endif %}
+    </div>
+  </section>
+</main>
+{% include "partials/public_footer.html" %}
+{% endblock %}

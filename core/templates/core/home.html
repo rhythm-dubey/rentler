@@ -343,9 +343,10 @@
 <div class="space-y-sm">
 <h5 class="text-label-sm font-label-sm uppercase tracking-wider text-outline">Legal</h5>
 <ul class="space-y-xs">
-<li class=""><a class="text-body-sm font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a></li>
-<li class=""><a class="text-body-sm font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
-<li class=""><a class="text-body-sm font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Cookie Policy</a></li>
+<li class=""><a class="text-body-sm font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="{% url 'core:terms' %}">Terms of Service</a></li>
+<li class=""><a class="text-body-sm font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="{% url 'core:privacy' %}">Privacy Policy</a></li>
+<li class=""><a class="text-body-sm font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="{% url 'core:about' %}">About Us</a></li>
+<li class=""><a class="text-body-sm font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="{% url 'core:account_deletion' %}">Account Deletion</a></li>
 </ul>
 </div>
 <div class="col-span-1 md:col-span-4 pt-xl mt-xl border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-md">

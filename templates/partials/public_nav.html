@@ -3,10 +3,10 @@
     <div class="flex items-center gap-xl">
       <a href="{% url 'core:home' %}" class="text-title-lg font-title-lg font-black text-primary">Rentler</a>
       <nav class="hidden md:flex items-center gap-lg">
-        <a class="text-primary font-bold border-b-2 border-primary text-label-md font-label-md" href="{% url 'core:home' %}">Overview</a>
-        <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="#">Users</a>
-        <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="#">Listings</a>
-        <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="#">Transactions</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="{% url 'core:home' %}">Overview</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="{% url 'core:about' %}">About</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="{% url 'core:privacy' %}">Privacy</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="{% url 'core:terms' %}">Terms</a>
       </nav>
     </div>
     <div class="flex items-center gap-md">

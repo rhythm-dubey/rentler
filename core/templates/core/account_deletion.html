@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Account Deletion Guide | Rentler{% endblock %}
+{% block body %}
+{% include "partials/messages.html" %}
+{% include "partials/public_nav.html" %}
+<main class="pt-16">
+  <section class="bg-primary-container text-on-primary py-3xl px-margin-mobile md:px-margin-desktop">
+    <div class="max-w-[1440px] mx-auto">
+      <p class="text-label-md font-label-md uppercase tracking-wide opacity-80 mb-sm">Account</p>
+      <h1 class="text-headline-lg md:text-display-lg font-display-lg">Account Deletion Guide</h1>
+    </div>
+  </section>
+
+  <section class="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop py-3xl space-y-lg">
+    <h2 class="text-headline-md font-headline-md text-on-surface">Deleting Your Account: A Step-by-Step Guide</h2>
+    <p class="text-body-md font-body-md text-on-surface-variant">
+      Deleting your account is a permanent action that cannot be undone. Before proceeding, please ensure you have
+      cancelled any active subscriptions or services linked to your account.
+    </p>
+    <h3 class="text-title-lg font-title-lg text-on-surface">To delete your account, follow these steps:</h3>
+    <ol class="list-decimal list-inside space-y-sm text-body-md font-body-md text-on-surface-variant">
+      <li>Log in to your account using your credentials.</li>
+      <li>Open the Account / Profile menu.</li>
+      <li>Choose the “Delete Account” option on the Account page.</li>
+      <li>Confirm your decision by clicking “Confirm”.</li>
+    </ol>
+  </section>
+</main>
+{% include "partials/public_footer.html" %}
+{% endblock %}
