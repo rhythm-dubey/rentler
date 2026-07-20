@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Rentler{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-tertiary-container": "#ffd4a4",
+            "on-secondary-container": "#00714d",
+            "inverse-surface": "#213145",
+            "surface-tint": "#4d44e3",
+            "on-surface-variant": "#464555",
+            "primary-fixed": "#e2dfff",
+            "secondary-fixed": "#6ffbbe",
+            "surface-container-high": "#dce9ff",
+            "on-primary-fixed-variant": "#3323cc",
+            "tertiary-fixed": "#ffddb8",
+            "on-surface": "#0b1c30",
+            "on-background": "#0b1c30",
+            "on-secondary-fixed-variant": "#005236",
+            "primary": "#3525cd",
+            "on-primary": "#ffffff",
+            "secondary-fixed-dim": "#4edea3",
+            "error": "#ba1a1a",
+            "outline": "#777587",
+            "outline-variant": "#c7c4d8",
+            "on-tertiary": "#ffffff",
+            "secondary-container": "#6cf8bb",
+            "surface-container-lowest": "#ffffff",
+            "inverse-on-surface": "#eaf1ff",
+            "surface": "#f8f9ff",
+            "on-error": "#ffffff",
+            "on-secondary": "#ffffff",
+            "surface-container": "#e5eeff",
+            "background": "#f8f9ff",
+            "surface-bright": "#f8f9ff",
+            "primary-fixed-dim": "#c3c0ff",
+            "surface-variant": "#d3e4fe",
+            "on-primary-container": "#dad7ff",
+            "error-container": "#ffdad6",
+            "on-primary-fixed": "#0f0069",
+            "inverse-primary": "#c3c0ff",
+            "surface-container-low": "#eff4ff",
+            "surface-container-highest": "#d3e4fe",
+            "on-tertiary-fixed": "#2a1700",
+            "on-error-container": "#93000a",
+            "tertiary": "#684000",
+            "on-tertiary-fixed-variant": "#653e00",
+            "tertiary-fixed-dim": "#ffb95f",
+            "secondary": "#006c49",
+            "on-secondary-fixed": "#002113",
+            "surface-dim": "#cbdbf5",
+            "primary-container": "#4f46e5",
+            "tertiary-container": "#885500"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+          spacing: {
+            sm: "8px",
+            lg: "24px",
+            base: "4px",
+            xl: "32px",
+            xs: "4px",
+            "3xl": "64px",
+            gutter: "24px",
+            md: "16px",
+            "2xl": "48px",
+            "margin-mobile": "16px",
+            "margin-desktop": "32px"
+          },
+          fontFamily: {
+            "title-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "label-md": ["Inter"],
+            "label-sm": ["Inter"],
+            "body-lg": ["Inter"],
+            "body-sm": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-lg-mobile": ["Inter"],
+            "headline-lg": ["Inter"],
+            "display-lg": ["Inter"]
+          },
+          fontSize: {
+            "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+            "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+            "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+            "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+            "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+            "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+            "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+            "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+            "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+            "display-lg": ["48px", {"lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #f8f9ff; }
+    .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .custom-shadow, .soft-ambient-shadow {
+      box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.05), 0px 4px 6px -2px rgba(0, 0, 0, 0.02);
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid #E2E8F0;
+    }
+    .input-focus-ring:focus {
+      outline: none;
+      border-color: #4F46E5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+    .errorlist { color: #ba1a1a; list-style: none; padding: 0; margin: 0.25rem 0 0; font-size: 12px; }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="{% block body_class %}bg-surface text-on-surface{% endblock %}">
+  {% block body %}
+    {% include "partials/messages.html" %}
+    {% block content %}{% endblock %}
+  {% endblock %}
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

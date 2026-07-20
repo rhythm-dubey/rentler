@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block title %}Login – Rentler{% endblock %}
+{% block body_class %}bg-surface text-on-surface min-h-screen flex flex-col items-center justify-center relative p-md{% endblock %}
+{% block body %}
+{% include "partials/messages.html" %}
+<main class="relative z-10 w-full max-w-md my-xl">
+  <div class="text-center mb-xl">
+    <a href="{% url 'core:home' %}" class="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-primary-container mb-md soft-ambient-shadow">
+      <span class="material-symbols-outlined text-on-primary text-[32px]" style="font-variation-settings: 'FILL' 1;">apartment</span>
+    </a>
+    <h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">Rentler</h1>
+    <p class="font-body-md text-body-md text-on-surface-variant mt-base">Enterprise rental marketplace</p>
+  </div>
+
+  <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-xl soft-ambient-shadow">
+    <form class="space-y-lg" method="post" action="{% url 'accounts:login' %}">
+      {% csrf_token %}
+      {% if form.non_field_errors %}
+        <div class="rounded-lg border border-error bg-error-container/40 px-md py-sm text-body-sm text-on-error-container">
+          {{ form.non_field_errors }}
+        </div>
+      {% endif %}
+
+      <div class="space-y-base">
+        <label class="font-label-sm text-label-sm text-on-surface-variant uppercase" for="{{ form.username.id_for_label }}">Email</label>
+        <div class="relative group">
+          <input
+            class="w-full h-10 pl-10 pr-md rounded-lg border border-outline-variant bg-surface-container-low text-body-sm font-body-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+            type="email"
+            name="{{ form.username.name }}"
+            id="{{ form.username.id_for_label }}"
+            value="{{ form.username.value|default:'' }}"
+            placeholder="name@company.com"
+            autofocus
+            required
+          >
+          <div class="absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">
+            <span class="material-symbols-outlined text-[20px]">person</span>
+          </div>
+        </div>
+        {{ form.username.errors }}
+      </div>
+
+      <div class="space-y-base">
+        <div class="flex justify-between items-center">
+          <label class="font-label-sm text-label-sm text-on-surface-variant uppercase" for="{{ form.password.id_for_label }}">Password</label>
+          <a class="font-label-sm text-label-sm text-primary hover:underline transition-all" href="{% url 'accounts:password_reset' %}">Forgot?</a>
+        </div>
+        <div class="relative group">
+          <input
+            class="w-full h-10 pl-10 pr-10 rounded-lg border border-outline-variant bg-surface-container-low text-body-sm font-body-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+            type="password"
+            name="{{ form.password.name }}"
+            id="{{ form.password.id_for_label }}"
+            placeholder="••••••••"
+            required
+          >
+          <div class="absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">
+            <span class="material-symbols-outlined text-[20px]">lock</span>
+          </div>
+          <button class="absolute right-md top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors" type="button" id="password-toggle" aria-label="Toggle password visibility">
+            <span class="material-symbols-outlined text-[20px]">visibility</span>
+          </button>
+        </div>
+        {{ form.password.errors }}
+      </div>
+
+      {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+      {% endif %}
+
+      <div class="pt-md">
+        <button class="w-full h-12 bg-primary-container text-on-primary font-label-md text-label-md rounded-lg soft-ambient-shadow hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-sm" type="submit">
+          <span>Authenticate Access</span>
+          <span class="material-symbols-outlined text-[18px]">login</span>
+        </button>
+      </div>
+
+      <div class="relative py-md">
+        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-outline-variant"></div></div>
+        <div class="relative flex justify-center text-xs uppercase"><span class="bg-surface-container-lowest px-md text-on-surface-variant font-label-sm">Partner Sign-in</span></div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-md">
+        <button type="button" disabled class="flex items-center justify-center gap-sm h-10 px-md rounded-lg border border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-on-surface opacity-50 cursor-not-allowed">
+          <span class="material-symbols-outlined text-[18px]">domain</span>
+          Corporate
+        </button>
+        <button type="button" disabled class="flex items-center justify-center gap-sm h-10 px-md rounded-lg border border-outline-variant bg-surface-container-low font-label-sm text-label-sm text-on-surface opacity-50 cursor-not-allowed">
+          <span class="material-symbols-outlined text-[18px]">key</span>
+          SSO
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="mt-xl text-center">
+    <p class="font-body-sm text-body-sm text-on-surface-variant">
+      New to the platform?
+      <a class="font-label-md text-label-md text-primary font-bold hover:underline ml-xs" href="{% url 'accounts:register' %}">Register your account</a>
+    </p>
+  </div>
+</main>
+
+<div class="absolute bottom-0 left-0 w-full h-[307px] pointer-events-none flex items-end justify-center px-margin-desktop overflow-hidden opacity-50">
+  <div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-xl translate-y-1/2">
+    <div class="bg-white/40 border border-white/60 h-64 rounded-t-3xl backdrop-blur-sm"></div>
+    <div class="bg-white/60 border border-white h-80 rounded-t-3xl backdrop-blur-md"></div>
+    <div class="bg-white/40 border border-white/60 h-64 rounded-t-3xl backdrop-blur-sm"></div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const passToggle = document.getElementById('password-toggle');
+    const passInput = document.getElementById('{{ form.password.id_for_label }}');
+    if (passToggle && passInput) {
+      passToggle.addEventListener('click', () => {
+        const isPass = passInput.type === 'password';
+        passInput.type = isPass ? 'text' : 'password';
+        passToggle.querySelector('.material-symbols-outlined').textContent = isPass ? 'visibility_off' : 'visibility';
+      });
+    }
+  });
+</script>
+{% endblock %}

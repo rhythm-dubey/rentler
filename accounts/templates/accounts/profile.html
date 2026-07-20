@@ -1,0 +1,21 @@
+{% extends "accounts/base.html" %}
+{% block page_title %}Profile{% endblock %}
+{% block content %}
+<h1 class="font-headline-md text-headline-md text-on-surface mb-sm">Profile</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-lg">
+  {{ user.email }}
+  {% for role in user.roles.all %} · {{ role.name }}{% empty %} · no roles{% endfor %}
+</p>
+<form method="post" enctype="multipart/form-data" class="space-y-md">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  {% for field in form %}
+    <div class="space-y-xs">
+      <label class="font-label-sm text-label-sm text-on-surface-variant uppercase" for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {{ field }}
+      {{ field.errors }}
+    </div>
+  {% endfor %}
+  <button type="submit" class="w-full h-12 bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-primary-container transition-all">Save</button>
+</form>
+{% endblock %}

@@ -1,0 +1,31 @@
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface border-b border-outline-variant h-16 flex items-center">
+  <div class="max-w-[1440px] mx-auto w-full px-margin-mobile md:px-margin-desktop flex justify-between items-center h-full">
+    <div class="flex items-center gap-xl">
+      <a href="{% url 'core:home' %}" class="text-title-lg font-title-lg font-black text-primary">Rentler</a>
+      <nav class="hidden md:flex items-center gap-lg">
+        <a class="text-primary font-bold border-b-2 border-primary text-label-md font-label-md" href="{% url 'core:home' %}">Overview</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="#">Users</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="#">Listings</a>
+        <a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="#">Transactions</a>
+      </nav>
+    </div>
+    <div class="flex items-center gap-md">
+      <div class="hidden lg:flex items-center bg-surface-container-low px-md py-xs rounded-lg border border-outline-variant">
+        <span class="material-symbols-outlined text-outline text-[20px]">search</span>
+        <input class="bg-transparent border-none focus:ring-0 text-body-sm w-48" placeholder="Search rentals..." type="text">
+      </div>
+      <div class="flex items-center gap-sm">
+        {% if user.is_authenticated %}
+          <a href="{% url 'accounts:profile' %}" class="text-label-md font-label-md text-primary px-lg py-sm hover:bg-surface-container-low rounded-lg transition-all">Profile</a>
+          <form action="{% url 'accounts:logout' %}" method="post" class="inline">
+            {% csrf_token %}
+            <button type="submit" class="text-label-md font-label-md bg-primary text-on-primary px-lg py-sm rounded-lg hover:shadow-lg active:scale-95 transition-all">Logout</button>
+          </form>
+        {% else %}
+          <a href="{% url 'accounts:login' %}" class="text-label-md font-label-md text-primary px-lg py-sm hover:bg-surface-container-low rounded-lg transition-all">Log In</a>
+          <a href="{% url 'accounts:register' %}" class="text-label-md font-label-md bg-primary text-on-primary px-lg py-sm rounded-lg hover:shadow-lg active:scale-95 transition-all">Register</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</header>

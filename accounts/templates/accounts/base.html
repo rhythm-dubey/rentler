@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{% block page_title %}Account{% endblock %} – Rentler{% endblock %}
+{% block body_class %}bg-surface text-on-surface min-h-screen{% endblock %}
+{% block body %}
+{% include "partials/messages.html" %}
+<main class="min-h-screen flex flex-col items-center justify-center px-margin-mobile py-xl">
+  <div class="w-full max-w-md bg-surface-container-lowest border border-outline-variant rounded-xl p-xl soft-ambient-shadow">
+    <div class="mb-lg text-center">
+      <a href="{% url 'core:home' %}" class="text-title-lg font-title-lg font-black text-primary">Rentler</a>
+    </div>
+    {% block content %}{% endblock %}
+  </div>
+</main>
+{% endblock %}

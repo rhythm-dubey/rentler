@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% block title %}Create Your Rentler Account{% endblock %}
+{% block body_class %}min-h-screen flex items-center justify-center p-md bg-surface{% endblock %}
+{% block body %}
+{% include "partials/messages.html" %}
+<main class="relative z-10 w-full max-w-[1200px] grid grid-cols-1 lg:grid-cols-2 glass-card rounded-xl shadow-md overflow-hidden">
+  <section class="hidden lg:flex flex-col justify-between p-2xl bg-inverse-surface text-on-primary-fixed relative overflow-hidden">
+    <div class="relative z-10">
+      <div class="flex items-center gap-sm mb-3xl">
+        <div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center">
+          <span class="material-symbols-outlined text-on-primary" style="font-variation-settings: 'FILL' 1;">domain</span>
+        </div>
+        <a href="{% url 'core:home' %}" class="font-headline-md text-headline-md text-on-primary-fixed tracking-tight">Rentler</a>
+      </div>
+      <h1 class="font-display-lg text-display-lg leading-tight mb-lg">Streamline your rentals today.</h1>
+      <p class="font-body-lg text-body-lg text-surface-variant/80 max-w-md">Join owners and renters using a trusted marketplace for listing, booking, and managing rentals.</p>
+    </div>
+    <div class="relative z-10">
+      <div class="flex flex-col gap-md">
+        <div class="flex items-start gap-md">
+          <span class="material-symbols-outlined text-secondary-fixed">check_circle</span>
+          <div>
+            <p class="font-label-md text-label-md text-on-primary-fixed">Secure Payments</p>
+            <p class="font-body-sm text-body-sm text-surface-variant/70">Stripe-powered checkout and owner payouts.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-md">
+          <span class="material-symbols-outlined text-secondary-fixed">check_circle</span>
+          <div>
+            <p class="font-label-md text-label-md text-on-primary-fixed">Verified Profiles</p>
+            <p class="font-body-sm text-body-sm text-surface-variant/70">Identity checks that build trust on both sides.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-md">
+          <span class="material-symbols-outlined text-secondary-fixed">check_circle</span>
+          <div>
+            <p class="font-label-md text-label-md text-on-primary-fixed">Flexible Listings</p>
+            <p class="font-body-sm text-body-sm text-surface-variant/70">Daily and hourly availability for any category.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="absolute inset-0 opacity-20 pointer-events-none">
+      <img alt="Modern architecture" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBANn0WrBUqcUAmVDnXJ5550nU6Cx0Ku1WK1OL0dWEG7ELMIc4yU4ilGCUhKR_7LFcwH9qNDtj_UKbWWvJeKsJnlKDuhp4jk3RKun6x0ttHfR1BLBqWr46IZ9ZHoidXdbmTWXQ9B7MDoau968Y8r-qptEcIMqnjtC2A7CwaHax8d40_UKK0hmiwpqvV-dKaTzn_d65EP74hlXlC_QRdTMhKN0B1Hf7SgBodBM2nUfme4am-6D56r6VvysE_jhihDnhVoKHDJDYmoCg">
+    </div>
+  </section>
+
+  <section class="p-xl lg:p-2xl bg-white">
+    <div class="max-w-md mx-auto">
+      <div class="mb-xl">
+        <h2 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Create Account</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant">Register as an owner or renter to get started.</p>
+      </div>
+
+      <form class="space-y-lg" method="post" action="{% url 'accounts:register' %}" id="registerForm">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+          <div class="rounded-lg border border-error bg-error-container/40 px-md py-sm text-body-sm text-on-error-container">
+            {{ form.non_field_errors }}
+          </div>
+        {% endif %}
+
+        <div class="space-y-xs">
+          <label class="font-label-md text-label-md text-on-surface" for="{{ form.name.id_for_label }}">Full Name</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-[20px]">person</span>
+            <input class="w-full pl-10 pr-md py-md rounded-lg border border-outline-variant bg-surface-container-low font-body-md text-body-md input-focus-ring transition-all" type="text" name="{{ form.name.name }}" id="{{ form.name.id_for_label }}" value="{{ form.name.value|default:'' }}" placeholder="John Doe" required>
+          </div>
+          {{ form.name.errors }}
+        </div>
+
+        <div class="space-y-xs">
+          <label class="font-label-md text-label-md text-on-surface" for="{{ form.email.id_for_label }}">Email Address</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-[20px]">mail</span>
+            <input class="w-full pl-10 pr-md py-md rounded-lg border border-outline-variant bg-surface-container-low font-body-md text-body-md input-focus-ring transition-all" type="email" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" value="{{ form.email.value|default:'' }}" placeholder="john@example.com" required>
+          </div>
+          {{ form.email.errors }}
+        </div>
+
+        <div class="space-y-xs">
+          <label class="font-label-md text-label-md text-on-surface" for="{{ form.password1.id_for_label }}">Password</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-[20px]">lock</span>
+            <input class="w-full pl-10 pr-10 py-md rounded-lg border border-outline-variant bg-surface-container-low font-body-md text-body-md input-focus-ring transition-all" type="password" name="{{ form.password1.name }}" id="{{ form.password1.id_for_label }}" placeholder="••••••••" required>
+            <button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-primary" type="button" id="password1-toggle" aria-label="Toggle password visibility">
+              <span class="material-symbols-outlined text-[20px]">visibility</span>
+            </button>
+          </div>
+          <p class="font-label-sm text-label-sm text-outline">Must be at least 8 characters long.</p>
+          {{ form.password1.errors }}
+        </div>
+
+        <div class="space-y-xs">
+          <label class="font-label-md text-label-md text-on-surface" for="{{ form.password2.id_for_label }}">Confirm Password</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-[20px]">lock</span>
+            <input class="w-full pl-10 pr-md py-md rounded-lg border border-outline-variant bg-surface-container-low font-body-md text-body-md input-focus-ring transition-all" type="password" name="{{ form.password2.name }}" id="{{ form.password2.id_for_label }}" placeholder="••••••••" required>
+          </div>
+          {{ form.password2.errors }}
+        </div>
+
+        <div class="space-y-sm">
+          <label class="font-label-md text-label-md text-on-surface">I am a...</label>
+          <div class="grid grid-cols-2 gap-md">
+            <label class="relative flex items-center gap-sm p-md rounded-lg border border-outline-variant cursor-pointer hover:bg-surface-container-high transition-colors group role-option {% if form.role.value == 'owner' %}border-primary bg-primary-fixed/20{% endif %}">
+              <input class="w-4 h-4 text-primary focus:ring-primary border-outline-variant" type="radio" name="{{ form.role.name }}" value="owner" {% if form.role.value == 'owner' %}checked{% endif %} required>
+              <div class="flex flex-col">
+                <span class="font-label-md text-label-md text-on-surface">Owner</span>
+                <span class="font-body-sm text-body-sm text-outline group-hover:text-on-surface-variant transition-colors">I list items to rent</span>
+              </div>
+            </label>
+            <label class="relative flex items-center gap-sm p-md rounded-lg border border-outline-variant cursor-pointer hover:bg-surface-container-high transition-colors group role-option {% if form.role.value == 'renter' or not form.role.value %}border-primary bg-primary-fixed/20{% endif %}">
+              <input class="w-4 h-4 text-primary focus:ring-primary border-outline-variant" type="radio" name="{{ form.role.name }}" value="renter" {% if form.role.value == 'renter' or not form.role.value %}checked{% endif %} required>
+              <div class="flex flex-col">
+                <span class="font-label-md text-label-md text-on-surface">Renter</span>
+                <span class="font-body-sm text-body-sm text-outline group-hover:text-on-surface-variant transition-colors">I want to rent items</span>
+              </div>
+            </label>
+          </div>
+          {{ form.role.errors }}
+        </div>
+
+        <div class="flex items-start gap-sm">
+          <input class="mt-1 w-4 h-4 text-primary rounded border-outline-variant focus:ring-primary" type="checkbox" name="{{ form.terms.name }}" id="{{ form.terms.id_for_label }}" {% if form.terms.value %}checked{% endif %} required>
+          <label class="font-body-sm text-body-sm text-on-surface-variant" for="{{ form.terms.id_for_label }}">
+            I agree to the <a class="text-primary hover:underline font-label-sm" href="#">Terms of Service</a> and <a class="text-primary hover:underline font-label-sm" href="#">Privacy Policy</a>.
+          </label>
+        </div>
+        {{ form.terms.errors }}
+
+        <button class="w-full h-12 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-primary-container active:scale-[0.98] transition-all flex items-center justify-center gap-sm" type="submit">
+          <span>Get Started</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </button>
+      </form>
+
+      <div class="mt-xl flex flex-col gap-lg">
+        <div class="relative">
+          <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-outline-variant"></div></div>
+          <div class="relative flex justify-center text-label-sm"><span class="bg-white px-md text-outline">OR CONTINUE WITH</span></div>
+        </div>
+        <div class="grid grid-cols-2 gap-md">
+          <button type="button" disabled class="flex items-center justify-center gap-sm h-11 border border-outline-variant rounded-lg font-label-md text-label-md opacity-50 cursor-not-allowed">
+            <span>Google</span>
+          </button>
+          <button type="button" disabled class="flex items-center justify-center gap-sm h-11 border border-outline-variant rounded-lg font-label-md text-label-md opacity-50 cursor-not-allowed">
+            <span>Facebook</span>
+          </button>
+        </div>
+        <p class="text-center font-body-md text-body-md text-on-surface-variant">
+          Already have an account?
+          <a class="text-primary font-bold hover:underline" href="{% url 'accounts:login' %}">Sign In</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="fixed bottom-lg left-1/2 -translate-x-1/2 hidden md:block">
+  <p class="font-label-sm text-label-sm text-outline">© 2026 Rentler. Professional Grade Rental Tech.</p>
+</footer>
+{% endblock %}
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const passToggle = document.getElementById('password1-toggle');
+    const passInput = document.getElementById('{{ form.password1.id_for_label }}');
+    if (passToggle && passInput) {
+      passToggle.addEventListener('click', () => {
+        const isPass = passInput.type === 'password';
+        passInput.type = isPass ? 'text' : 'password';
+        passToggle.querySelector('.material-symbols-outlined').textContent = isPass ? 'visibility_off' : 'visibility';
+      });
+    }
+
+    const roleInputs = document.querySelectorAll('input[name="{{ form.role.name }}"]');
+    roleInputs.forEach((radio) => {
+      radio.addEventListener('change', () => {
+        roleInputs.forEach((r) => {
+          r.parentElement.classList.remove('border-primary', 'bg-primary-fixed/20');
+          r.parentElement.classList.add('border-outline-variant');
+        });
+        if (radio.checked) {
+          radio.parentElement.classList.remove('border-outline-variant');
+          radio.parentElement.classList.add('border-primary', 'bg-primary-fixed/20');
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}
